@@ -126,5 +126,6 @@ Meting API 地址在 `src/config/music.ts` 的 `METING_API_SERVER`，可随时�
 
 - **网易云防盗链**：MetingJS 不直接请求网易云，而是通过 **Meting API 服务器**中转获取播放链接并自动刷新。公网免费节点 `api.i-meto.com` 可能不稳定，可自建：[metowolf/MetingApi](https://github.com/metowolf/MetingApi)，然后在 `src/config/music.ts` 替换地址。
 - **浏览器自动播放限制**：即使 `autoplay` 打开，浏览器也可能拦截未交互的音频自动播放，这是浏览器策略，属正常。
+- **旧实例残留**：APlayer `fixed` 模式会把播放器 DOM 挂到 `document.body` 上，仅清空挂载容器（`innerHTML=''`）清不掉。开发时若反复切换过歌单配置（或 HMR 重复挂载），右下角可能叠加多个旧播放器、显示旧歌单。修复方式：重建 `<meting-js>` 前先销毁全部旧实例（遍历 `window.APlayer.aplayers` 调用 `destroy()`，并移除残留的 `meting-js` 节点），参见 `src/App.vue` 的 `loadMusicPlayer()`。
 - **CDN 被墙/慢**：国内用户如 bootcdn 访问异常，可换 `cdn.jsdelivr.net` 或 unpkg 同版本路径。
 - 本项目仅用于**非商用个人博客**。

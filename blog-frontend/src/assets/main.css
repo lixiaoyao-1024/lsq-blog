@@ -1,0 +1,323 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* 晨雾：淡紫蓝渐变 + 光晕 */
+  background:
+    radial-gradient(1200px 820px at 12% -6%, rgba(167, 139, 250, 0.3), transparent 60%),
+    radial-gradient(1100px 700px at 102% 16%, rgba(125, 211, 252, 0.26), transparent 55%),
+    radial-gradient(1000px 900px at 50% 112%, rgba(233, 213, 255, 0.32), transparent 62%),
+    linear-gradient(160deg, #f1f2fb 0%, #e9e8f8 45%, #f3effb 100%);
+  background-attachment: fixed;
+  color: #2b2f4b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root.dark {
+  color-scheme: dark;
+  /* 深夜星空：深蓝 → 深紫黑 柔和渐变 */
+  background:
+    radial-gradient(1100px 760px at 12% -8%, rgba(99, 102, 241, 0.2), transparent 58%),
+    radial-gradient(1000px 720px at 106% 6%, rgba(147, 51, 234, 0.17), transparent 55%),
+    radial-gradient(1200px 900px at 50% 116%, rgba(56, 189, 248, 0.1), transparent 60%),
+    linear-gradient(165deg, #0a0e24 0%, #141138 42%, #1c1033 72%, #090a18 100%);
+  background-attachment: fixed;
+  color: #eef2ff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background: transparent;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#app {
+  min-height: 100vh;
+}
+
+::selection {
+  background: rgba(167, 139, 250, 0.32);
+}
+
+/* 全局滚动条 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 9999px;
+  background-clip: padding-box;
+  background-color: rgba(148, 163, 184, 0.4);
+}
+.dark ::-webkit-scrollbar-thumb {
+  background-color: rgba(148, 163, 184, 0.22);
+}
+
+/* ============ 高透明毛玻璃材质（背景图需明显透出） ============ */
+.glass-surface {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.42), rgba(241, 241, 255, 0.3));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 16px 50px rgba(46, 51, 92, 0.12);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+}
+
+.dark .glass-surface {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(26, 28, 60, 0.3), rgba(15, 14, 38, 0.32));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 18px 55px rgba(2, 4, 26, 0.38);
+}
+
+/* 深色半透明状态条（歌词 / 状态） */
+.glass-status {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(90deg, rgba(26, 22, 56, 0.42), rgba(38, 28, 74, 0.36), rgba(26, 22, 56, 0.42));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 12px 40px rgba(2, 4, 26, 0.3);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* ============ 背景层：光晕与粒子 ============ */
+.bg-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.halo {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  will-change: transform;
+}
+
+.star-dot {
+  position: absolute;
+  border-radius: 9999px;
+  background: rgba(139, 92, 246, 0.55);
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+  animation: twinkle 3.6s ease-in-out infinite;
+}
+
+.particle {
+  position: absolute;
+  border-radius: 9999px;
+  background: var(--p-color-light, rgba(124, 58, 237, 0.5));
+  box-shadow: 0 0 8px var(--p-color-light, rgba(124, 58, 237, 0.45));
+  animation: particle-float var(--p-dur, 13s) ease-in-out var(--p-delay, 0s) infinite alternate;
+  will-change: transform, opacity;
+}
+
+.dark .particle {
+  background: var(--p-color, rgba(221, 214, 254, 0.7));
+  box-shadow: 0 0 8px var(--p-color, rgba(221, 214, 254, 0.55));
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: var(--p-o-min, 0.2);
+  }
+  100% {
+    transform: translate3d(var(--p-dx, 16px), var(--p-dy, -44px), 0);
+    opacity: var(--p-o-max, 0.65);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+/* 隐藏滚动条（轮播等） */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ============ 正文排版 ============ */
+.content-prose {
+  color: #3a3f5c;
+}
+
+.dark .content-prose {
+  color: #dbe3f4;
+}
+
+.content-prose h1,
+.content-prose h2,
+.content-prose h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  color: #1c2140;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.dark .content-prose h1,
+.dark .content-prose h2,
+.dark .content-prose h3 {
+  color: #f1f4ff;
+}
+
+.content-prose p {
+  margin: 1rem 0;
+  line-height: 1.85;
+}
+
+.content-prose ul,
+.content-prose ol {
+  margin: 1rem 0;
+  padding-left: 1.25rem;
+}
+
+.content-prose code {
+  border-radius: 6px;
+  background: rgba(124, 58, 237, 0.1);
+  padding: 0.12rem 0.35rem;
+  font-size: 0.92em;
+}
+
+.dark .content-prose code {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.content-prose pre {
+  overflow-x: auto;
+  border-radius: 14px;
+  background: #141238;
+  padding: 1rem;
+  color: #e2e8f0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .particle,
+  .star-dot {
+    animation: none;
+  }
+}
+
+/* ===== Element Plus 主题覆盖：适配玻璃拟态 ===== */
+:root {
+  --el-color-primary: #7c3aed;
+  --el-color-primary-light-3: color-mix(in srgb, #7c3aed 70%, white);
+  --el-color-primary-light-5: color-mix(in srgb, #7c3aed 50%, white);
+  --el-color-primary-light-7: color-mix(in srgb, #7c3aed 30%, white);
+  --el-color-primary-light-8: color-mix(in srgb, #7c3aed 20%, white);
+  --el-color-primary-light-9: color-mix(in srgb, #7c3aed 10%, white);
+  --el-color-primary-dark-2: color-mix(in srgb, #7c3aed 80%, black);
+}
+
+.el-overlay {
+  background-color: rgba(8, 10, 28, 0.4);
+  backdrop-filter: blur(4px);
+}
+.el-overlay.is-dark {
+  background-color: rgba(5, 5, 16, 0.72);
+}
+
+.el-message-box {
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(241, 241, 255, 0.84));
+  box-shadow: 0 18px 50px -12px rgba(23, 18, 64, 0.35);
+  backdrop-filter: blur(18px) saturate(1.3);
+}
+.dark .el-message-box {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, rgba(34, 36, 80, 0.85), rgba(20, 18, 50, 0.88));
+}
+
+.el-message-box__title {
+  font-weight: 700;
+  color: #1e1b4b;
+}
+.dark .el-message-box__title {
+  color: #f1f4ff;
+}
+
+.el-message-box__message {
+  color: #475569;
+}
+.dark .el-message-box__message {
+  color: #cbd5e1;
+}
+
+.el-message-box__btns .el-button {
+  border-radius: 9999px;
+}
+.el-message-box__btns .el-button--primary {
+  border: none;
+  background: linear-gradient(135deg, #8b5cf6, #d946ef);
+  box-shadow: 0 8px 20px -6px rgba(139, 92, 246, 0.5);
+}
+.el-message-box__btns .el-button--primary:hover {
+  background: linear-gradient(135deg, #a78bfa, #e879f9);
+}
+
+.el-message {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(241, 241, 255, 0.85));
+  box-shadow: 0 10px 30px -8px rgba(23, 18, 64, 0.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+}
+.dark .el-message {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: linear-gradient(135deg, rgba(34, 36, 80, 0.9), rgba(20, 18, 50, 0.92));
+  color: #e2e8f0;
+}

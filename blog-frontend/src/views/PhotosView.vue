@@ -5,12 +5,10 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 import { deleteFile, getFiles, uploadFile, type FileAsset } from '@/api/file'
 import { photos } from '@/assets/img/gallery'
+import { useAuthStore } from '@/stores/auth'
+import { isImageAsset } from '@/utils/photoCount'
 
-/** 判断是否为图片：优先看 mimeType，兜底看 URL 扩展名（兼容 content-type 缺失的上传） */
-function isImageAsset(asset: FileAsset): boolean {
-  if (asset.mimeType?.startsWith('image/')) return true
-  return /\.(jpe?g|png|gif|webp|avif|svg|bmp|ico)$/i.test(asset.url)
-}
+const authStore = useAuthStore()
 
 const activeIndex = ref<number | null>(null)
 const uploadedAssets = ref<FileAsset[]>([])
@@ -50,6 +48,8 @@ function onKeydown(event: KeyboardEvent) {
 }
 
 function openUpload() {
+  // 上传是写操作：游客点击先弹登录框
+  if (!authStore.requireLogin()) return
   photoInput.value?.click()
 }
 
@@ -81,6 +81,8 @@ async function onUpload(event: Event) {
 }
 
 async function removePhoto(asset: FileAsset, index: number) {
+  // 删除是写操作：游客点击先弹登录框
+  if (!authStore.requireLogin()) return
   try {
     await ElMessageBox.confirm(
       '删除后该照片会从服务器移除，且不可恢复。确定删除吗？',

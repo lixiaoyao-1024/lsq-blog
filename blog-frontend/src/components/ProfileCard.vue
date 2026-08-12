@@ -3,12 +3,14 @@ import { AtSign, Code2, Mail, Rss } from '@lucide/vue'
 import { onMounted, ref } from 'vue'
 
 import avatar from '@/assets/avatar.webp'
-import { photoCount as localPhotoCount } from '@/assets/img/gallery'
 import { getArticles } from '@/api/article'
 import { getNotes } from '@/api/note'
+import { fetchTotalPhotoCount, localPhotoCount } from '@/utils/photoCount'
 
 const articleCount = ref(0)
 const noteCount = ref(0)
+// 照片数 = 本地 + 后端已上传，先显示本地数量再异步刷新，与照片墙页保持一致
+const photoCount = ref(localPhotoCount)
 
 onMounted(async () => {
   try {
@@ -21,6 +23,7 @@ onMounted(async () => {
   } catch {
     // 统计失败时保留 0，不打断页面
   }
+  photoCount.value = await fetchTotalPhotoCount()
 })
 
 const socials = [
@@ -56,7 +59,7 @@ const socials = [
         <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">杂谈</p>
       </div>
       <div class="rounded-xl bg-white/40 p-2.5 text-center backdrop-blur-sm dark:bg-white/5">
-        <p class="text-base font-bold text-slate-900 dark:text-white">{{ localPhotoCount }}</p>
+        <p class="text-base font-bold text-slate-900 dark:text-white">{{ photoCount }}</p>
         <p class="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">照片</p>
       </div>
     </div>

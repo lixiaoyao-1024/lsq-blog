@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
+import { useAuthStore } from '@/stores/auth'
 import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
@@ -48,11 +50,13 @@ const router = createRouter({
       path: '/admin',
       name: 'admin',
       component: () => import('../views/admin/AdminContentView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/editor/:type/:id?',
       name: 'editor',
       component: () => import('../views/editor/ContentEditorView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/profile',
@@ -61,5 +65,28 @@ const router = createRouter({
     },
   ],
 })
+
+/** 因未登录被路由守卫拦下的目标地址，登录成功后跳转回去（由 LoginDialog 消费） */
+let redirectAfterLogin: string | null = null
+
+// 管理类页面需登录：游客访问时弹出登录框并回到首页，登录成功后自动跳回原目标
+router.beforeEach((to) => {
+  if (to.meta.requiresAuth) {
+    const authStore = useAuthStore()
+    if (!authStore.isLoggedIn) {
+      redirectAfterLogin = to.fullPath
+      authStore.openLogin()
+      return '/'
+    }
+  }
+  return true
+})
+
+/** 取出登录成功后应跳转的目标地址并清空；无则返回 null */
+export function consumeRedirectAfterLogin(): string | null {
+  const target = redirectAfterLogin
+  redirectAfterLogin = null
+  return target
+}
 
 export default router

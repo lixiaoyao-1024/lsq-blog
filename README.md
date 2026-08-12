@@ -14,6 +14,7 @@
 - **主题切换**：亮色 / 暗色，跟随系统偏好并记忆用户选择
 - **文件服务**：后端文件上传接口（单文件最大 20MB）与 `/uploads` 静态访问
 - **接口文档**：Swagger UI，路径 `/swagger-ui.html`
+- **管理员鉴权**：内容增删改 / 文件上传需管理员登录，游客可自由浏览；登录弹窗在发起写操作或访问管理页时自动弹出，令牌无状态签名、服务重启不失效
 
 ## 技术栈
 
@@ -27,6 +28,7 @@
 | 数据库 | MySQL（默认 `localhost:3306/personal_blog`，账号 `root` / 密码 `123456`） |
 | 接口文档 | SpringDoc OpenAPI 2.3（Swagger UI） |
 | 构建工具 | Maven（`mvnw` wrapper） |
+| 鉴权 | Argon2id 密码哈希（argon2-jvm）+ 无状态 HMAC-SHA256 签名令牌（无 JWT 库） |
 
 ### 前端 `blog-frontend/`
 
@@ -64,6 +66,15 @@ npm run dev
 ```
 
 访问 http://localhost:5173 ，后端 API 与 `/uploads` 静态资源均由 Vite 代理到 http://localhost:8080 。
+
+### 默认管理员账号
+
+数据库初始化时自动写入默认管理员：
+
+- 用户名：`admin`
+- 密码：`asdf2318655412`（以 Argon2id 加密存储）
+
+增删改内容 / 文件上传时前端会弹出登录框。**上线前请修改密码并更换 `application.yaml` 中的 `app.auth.token-secret` 默认密钥。**
 
 ## 目录
 

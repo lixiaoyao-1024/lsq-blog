@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import type { CSSProperties } from 'vue'
-import { onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { RouterView } from 'vue-router'
 
 import { getMusicConfig } from '@/api/musicConfig'
 import bgImage from '@/assets/img/bg.webp'
+import LoginDialog from '@/components/LoginDialog.vue'
 import NavBar from '@/components/NavBar.vue'
 import { METING_API_SERVER } from '@/config/music'
+import { useAuthStore } from '@/stores/auth'
 import { useThemeStore } from '@/stores/theme'
 
 const themeStore = useThemeStore()
+const authStore = useAuthStore()
 
 // APlayer + MetingJS 悬浮播放器的挂载点（只在 App 根组件渲染一次，路由切换不重建，音乐不中断）
 const musicHost = ref<HTMLElement | null>(null)
@@ -17,7 +20,17 @@ const musicHost = ref<HTMLElement | null>(null)
 onMounted(() => {
   themeStore.initTheme()
   void loadMusicPlayer()
+  // 接口 401（未登录 / 令牌过期）时全局弹出登录框
+  window.addEventListener('auth:required', onAuthRequired)
 })
+
+onBeforeUnmount(() => {
+  window.removeEventListener('auth:required', onAuthRequired)
+})
+
+function onAuthRequired() {
+  authStore.openLogin()
+}
 
 /** 根据后端全局配置动态创建 <meting-js>，由 MetingJS 渲染固定右下角的 APlayer */
 async function loadMusicPlayer() {
@@ -135,5 +148,8 @@ const particles = Array.from({ length: 16 }, (_, i) => {
 
     <!-- 悬浮播放器：meting-js 在 fixed 模式下定位右下角，此处仅是挂载容器 -->
     <div ref="musicHost" aria-hidden="true"></div>
+
+    <!-- 登录弹窗：增删改操作 / 访问管理页未登录时触发 -->
+    <LoginDialog />
   </div>
 </template>

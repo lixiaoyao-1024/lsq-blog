@@ -161,13 +161,18 @@ INSERT INTO blog_music_config (id, platform, resource_type, resource_id, fixed_e
 VALUES (1, 'netease', 'playlist', '18244892901', 1, 0, '默认歌单', '2026-08-11 00:00:00', '2026-08-11 00:00:00', 0)
 ON DUPLICATE KEY UPDATE platform = VALUES(platform), resource_type = VALUES(resource_type), resource_id = VALUES(resource_id), fixed_enabled = VALUES(fixed_enabled), autoplay = VALUES(autoplay), remark = VALUES(remark), deleted = VALUES(deleted);
 
+-- ---------- 后台管理员（默认：admin / asdf2318655412，Argon2id 哈希） ----------
+INSERT INTO blog_admin_user (id, username, password_hash, nickname, status, create_time, update_time, deleted)
+VALUES (1, 'admin', '$argon2id$v=19$m=65536,t=3,p=4$jPEtvTRPBTjCLcgNkI78/g$1KPqnvQ9xPtB/98NGi0bzEx2yU44FmeDp1S6ap9Sc4A', '管理员', 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
+ON DUPLICATE KEY UPDATE username = VALUES(username), password_hash = VALUES(password_hash), nickname = VALUES(nickname), status = VALUES(status), deleted = VALUES(deleted);
+
 -- ---------- 个人信息（"关于"页展示，默认示例，可增删改查） ----------
 INSERT INTO blog_personal_info (id, label, value, value_type, sort_order, status, create_time, update_time, deleted)
 VALUES (1, '姓名', 'lsq', 'text', 1, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
 ON DUPLICATE KEY UPDATE label = VALUES(label), value = VALUES(value), value_type = VALUES(value_type), sort_order = VALUES(sort_order), status = VALUES(status), deleted = VALUES(deleted);
 
 INSERT INTO blog_personal_info (id, label, value, value_type, sort_order, status, create_time, update_time, deleted)
-VALUES (2, '一句话介绍', '前端工程师 · 热爱代码、音乐与秩序感', 'text', 2, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
+VALUES (2, '一句话介绍', 'CV工程师 · 热爱代码、音乐与秩序感', 'text', 2, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
 ON DUPLICATE KEY UPDATE label = VALUES(label), value = VALUES(value), value_type = VALUES(value_type), sort_order = VALUES(sort_order), status = VALUES(status), deleted = VALUES(deleted);
 
 INSERT INTO blog_personal_info (id, label, value, value_type, sort_order, status, create_time, update_time, deleted)
@@ -175,9 +180,9 @@ VALUES (3, '邮箱', 'hello@example.com', 'email', 3, 1, '2026-08-12 00:00:00', 
 ON DUPLICATE KEY UPDATE label = VALUES(label), value = VALUES(value), value_type = VALUES(value_type), sort_order = VALUES(sort_order), status = VALUES(status), deleted = VALUES(deleted);
 
 INSERT INTO blog_personal_info (id, label, value, value_type, sort_order, status, create_time, update_time, deleted)
-VALUES (4, 'GitHub', 'https://github.com/lsq', 'link', 4, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
+VALUES (4, 'GitHub', 'https://github.com/lixiaoyao-1024', 'link', 4, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
 ON DUPLICATE KEY UPDATE label = VALUES(label), value = VALUES(value), value_type = VALUES(value_type), sort_order = VALUES(sort_order), status = VALUES(status), deleted = VALUES(deleted);
 
 INSERT INTO blog_personal_info (id, label, value, value_type, sort_order, status, create_time, update_time, deleted)
-VALUES (5, '所在城市', '杭州', 'text', 5, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
+VALUES (5, '所在城市', '提瓦特大陆', 'text', 5, 1, '2026-08-12 00:00:00', '2026-08-12 00:00:00', 0)
 ON DUPLICATE KEY UPDATE label = VALUES(label), value = VALUES(value), value_type = VALUES(value_type), sort_order = VALUES(sort_order), status = VALUES(status), deleted = VALUES(deleted);

@@ -29,6 +29,11 @@ spring:
 
 app:
   upload-dir: ./uploads
+  auth:
+    # 令牌签名密钥（HMAC-SHA256）。生产环境务必替换为足够长的随机字符串。
+    token-secret: personal-blog-change-me-8f3a2c9d41e7b6f0-please-replace-in-prod
+    # 登录令牌有效期（小时），默认 7 天
+    token-ttl-hours: 168
 
 mybatis-plus:
   configuration:

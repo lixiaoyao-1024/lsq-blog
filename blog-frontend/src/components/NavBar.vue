@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { Menu, X } from '@lucide/vue'
+import { LogOut, Menu, X } from '@lucide/vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { ref } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 
 import avatar from '@/assets/avatar.webp'
 import ThemeToggle from '@/components/ThemeToggle.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const menuOpen = ref(false)
 const route = useRoute()
@@ -22,6 +26,20 @@ const navItems = [
 function isActive(to: string) {
   if (to === '/') return route.path === '/'
   return route.path.startsWith(to)
+}
+
+async function onLogout() {
+  try {
+    await ElMessageBox.confirm('确定要退出登录吗？', '退出登录', {
+      confirmButtonText: '退出',
+      cancelButtonText: '取消',
+      type: 'warning',
+    })
+  } catch {
+    return // 用户取消
+  }
+  await authStore.logout()
+  ElMessage.success('已退出登录')
 }
 </script>
 
@@ -60,6 +78,21 @@ function isActive(to: string) {
       </nav>
 
       <div class="flex items-center gap-2">
+        <!-- 已登录：显示当前用户并提供退出登录 -->
+        <div v-if="authStore.isLoggedIn" class="hidden items-center gap-1 sm:flex">
+          <span class="max-w-24 truncate text-[13px] font-medium text-slate-600 dark:text-slate-300">
+            {{ authStore.nickname || authStore.username }}
+          </span>
+          <button
+            type="button"
+            class="inline-flex size-8 items-center justify-center rounded-full border border-white/40 bg-white/50 text-slate-600 shadow-sm backdrop-blur-xl transition hover:border-rose-300/60 hover:text-rose-500 dark:border-slate-700/50 dark:bg-slate-950/50 dark:text-slate-300 dark:hover:text-rose-300"
+            aria-label="退出登录"
+            title="退出登录"
+            @click="onLogout"
+          >
+            <LogOut class="size-3.5" />
+          </button>
+        </div>
         <ThemeToggle />
         <button
           type="button"

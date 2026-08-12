@@ -1,17 +1,21 @@
 <script setup lang="ts">
 import { ElDialog, ElMessage, ElMessageBox } from 'element-plus'
 import { FileText, Link2, Mail, Pencil, Plus, Trash2 } from '@lucide/vue'
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 
 import {
   createPersonalInfo,
   deletePersonalInfo,
   getAdminPersonalInfo,
+  getPersonalInfo,
   updatePersonalInfo,
   type PersonalInfo,
   type PersonalInfoType,
 } from '@/api/personalInfo'
 import avatar from '@/assets/avatar.webp'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
 
 const items = ref<PersonalInfo[]>([])
 const loading = ref(false)
@@ -32,13 +36,22 @@ const typeLabels: Record<PersonalInfoType, string> = {
 async function load() {
   loading.value = true
   try {
-    items.value = await getAdminPersonalInfo()
+    // 管理员登录后展示全部条目（含隐藏）；游客浏览仅展示公开条目
+    items.value = authStore.isLoggedIn ? await getAdminPersonalInfo() : await getPersonalInfo()
   } catch {
     ElMessage.error('加载失败，请稍后重试')
   } finally {
     loading.value = false
   }
 }
+
+// 登录 / 退出后刷新列表（游客只看到公开条目，登录后补全隐藏条目）
+watch(
+  () => authStore.isLoggedIn,
+  () => {
+    void load()
+  },
+)
 
 // ---------- 新增 / 编辑 ----------
 const dialogVisible = ref(false)
@@ -52,6 +65,8 @@ const form = reactive({
 })
 
 function openCreate() {
+  // 新增是写操作：游客点击先弹登录框
+  if (!authStore.requireLogin()) return
   editingId.value = null
   form.label = ''
   form.value = ''
@@ -62,6 +77,8 @@ function openCreate() {
 }
 
 function openEdit(item: PersonalInfo) {
+  // 编辑是写操作：游客点击先弹登录框
+  if (!authStore.requireLogin()) return
   editingId.value = item.id
   form.label = item.label
   form.value = item.value
@@ -98,6 +115,8 @@ async function submit() {
 }
 
 async function remove(item: PersonalInfo) {
+  // 删除是写操作：游客点击先弹登录框
+  if (!authStore.requireLogin()) return
   try {
     await ElMessageBox.confirm(
       `确定删除「${item.label}」这条信息吗？删除后不可恢复。`,

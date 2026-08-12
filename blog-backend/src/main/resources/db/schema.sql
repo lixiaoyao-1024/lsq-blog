@@ -112,6 +112,21 @@ CREATE TABLE IF NOT EXISTS blog_music_config (
     KEY idx_music_config_deleted (deleted)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Global music player config (single row)';
 
+-- 后台管理员表（鉴权用，密码为 Argon2id 哈希）
+CREATE TABLE IF NOT EXISTS blog_admin_user (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
+    username VARCHAR(64) NOT NULL COMMENT 'Login username',
+    password_hash VARCHAR(255) NOT NULL COMMENT 'Argon2id password hash',
+    nickname VARCHAR(64) NULL COMMENT 'Display nickname',
+    status TINYINT NOT NULL DEFAULT 1 COMMENT '1 enabled, 0 disabled',
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create time',
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Update time',
+    deleted TINYINT NOT NULL DEFAULT 0 COMMENT '0 normal, 1 deleted',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_admin_user_username (username),
+    KEY idx_admin_user_status (status, deleted)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Blog admin users';
+
 -- 个人信息条目表（"关于"页展示，可增删改查）
 CREATE TABLE IF NOT EXISTS blog_personal_info (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary key',

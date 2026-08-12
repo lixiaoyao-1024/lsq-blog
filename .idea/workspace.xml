@@ -7,15 +7,20 @@
     <list default="true" id="757609d5-5168-4503-a329-01add0ef26a7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/BlogBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/BlogBackendApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/config/DatabaseBootstrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/config/DatabaseBootstrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/config/WebMvcConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-backend/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-backend/src/main/resources/db/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/resources/db/data.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-backend/src/main/resources/db/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/resources/db/schema.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/assets/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/api/http.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/api/http.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-frontend/src/components/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/components/NavBar.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/blog-frontend/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/router/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blog-frontend/src/views/AboutView.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/views/PersonalInfoView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/views/PersonalInfoView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/views/PhotosView.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/views/PhotosView.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/vite.config.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,7 +85,7 @@
       <recent name="E:\project\personal-blog\blog-frontend\src\assets\img" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="Spring Boot.BlogBackendApplication">
     <configuration name="BlogBackendApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="blog-backend" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.zmr.blogbackend.BlogBackendApplication" />
@@ -125,7 +130,7 @@
       <workItem from="1786331203188" duration="1204000" />
       <workItem from="1786332422884" duration="4012000" />
       <workItem from="1786410927422" duration="11190000" />
-      <workItem from="1786496420687" duration="969000" />
+      <workItem from="1786496420687" duration="2645000" />
     </task>
     <servers />
   </component>

@@ -16,7 +16,7 @@ const navItems = [
   { label: '杂谈', to: '/notes' },
   { label: '照片', to: '/photos' },
   { label: '写作', to: '/admin' },
-  { label: '关于', to: '/about' },
+  { label: '个人信息', to: '/profile' },
 ]
 
 function isActive(to: string) {

@@ -112,6 +112,21 @@ CREATE TABLE IF NOT EXISTS blog_music_config (
     KEY idx_music_config_deleted (deleted)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Global music player config (single row)';
 
+-- 个人信息条目表（"关于"页展示，可增删改查）
+CREATE TABLE IF NOT EXISTS blog_personal_info (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
+    label VARCHAR(64) NOT NULL COMMENT '条目名称，如：邮箱 / GitHub / 所在城市',
+    value VARCHAR(500) NOT NULL COMMENT '条目内容',
+    value_type VARCHAR(20) NOT NULL DEFAULT 'text' COMMENT '渲染类型：text纯文本 / link外链 / email邮箱',
+    sort_order INT NOT NULL DEFAULT 0 COMMENT 'Sort weight (ascending)',
+    status TINYINT NOT NULL DEFAULT 1 COMMENT '1 display, 0 hidden',
+    create_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Create time',
+    update_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Update time',
+    deleted TINYINT NOT NULL DEFAULT 0 COMMENT '0 normal, 1 deleted',
+    PRIMARY KEY (id),
+    KEY idx_personal_info_sort (status, deleted, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Personal profile info items';
+
 CREATE TABLE IF NOT EXISTS blog_file_asset (
     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'Primary key',
     original_name VARCHAR(255) NOT NULL COMMENT 'Original file name',

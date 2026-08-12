@@ -7,6 +7,11 @@ spring:
     username: root
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      # Docker 启动竞态兜底：连接池初始化失败不阻断应用启动，
+      # 改为按 connection-timeout（30s）惰性重试，配合 DatabaseBootstrapper 等待 MySQL 就绪
+      initialization-fail-timeout: -1
+      connection-timeout: 30000
   sql:
     init:
       mode: always

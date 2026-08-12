@@ -4,11 +4,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="757609d5-5168-4503-a329-01add0ef26a7" name="Changes" comment="" />
+    <list default="true" id="757609d5-5168-4503-a329-01add0ef26a7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/BlogBackendApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/BlogBackendApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/config/DatabaseBootstrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/java/com/zmr/blogbackend/config/DatabaseBootstrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/resources/db/data.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/resources/db/data.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-backend/src/main/resources/db/schema.sql" beforeDir="false" afterPath="$PROJECT_DIR$/blog-backend/src/main/resources/db/schema.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/assets/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/assets/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/components/NavBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/components/NavBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/router/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/blog-frontend/src/router/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blog-frontend/src/views/AboutView.vue" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -31,8 +46,10 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Maven.blog-backend [clean].executor": "Run",
+    "Maven.blog-backend [compile].executor": "Run",
     "Maven.blog-backend [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor": "Run",
     "Maven.blog-backend [org.apache.maven.plugins:maven-compiler-plugin:3.15.0:compile].executor": "Run",
+    "Maven.blog-backend [package].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -40,8 +57,10 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Spring Boot.BlogBackendApplication.executor": "Run",
+    "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "E:/project/personal-blog/blog-frontend/public",
     "nodejs_package_manager_path": "npm",
@@ -105,7 +124,8 @@
       <workItem from="1786330341539" duration="842000" />
       <workItem from="1786331203188" duration="1204000" />
       <workItem from="1786332422884" duration="4012000" />
-      <workItem from="1786410927422" duration="7007000" />
+      <workItem from="1786410927422" duration="11190000" />
+      <workItem from="1786496420687" duration="969000" />
     </task>
     <servers />
   </component>

@@ -76,7 +76,7 @@ npm run preview       # 预览构建产物
 personal-blog/
 ├── blog-backend/                 # Spring Boot 后端
 │   └── src/main/java/com/zmr/blogbackend/
-│       ├── controller/           # REST 控制器（articles / projects / notes / categories / files / music 配置）
+│       ├── controller/           # REST 控制器（articles / projects / notes / categories / files / music 配置 / personal-info）
 │       ├── service/              # 服务接口
 │       │   └── impl/             # 服务实现
 │       ├── mapper/               # MyBatis-Plus Mapper
@@ -91,13 +91,13 @@ personal-blog/
 │       ├── router/               # 路由配置
 │       ├── stores/               # Pinia 状态（theme）
 │       ├── types/                # TypeScript 类型定义
-│       └── views/                # 页面视图（列表/详情/照片墙/管理后台/写作编辑器/首页/关于）
+│       └── views/                # 页面视图（列表/详情/照片墙/管理后台/写作编辑器/首页/个人信息）
 └── uploads/                      # 上传文件目录（后端 app.upload-dir 配置，默认 ./uploads）
 ```
 
 ## 关键约定与注意事项
 
-- **数据库自动初始化**：后端启动时 `DatabaseBootstrapper` 会按 `application.yaml` 中的 JDBC 地址自动创建数据库（如不存在）；表结构由 `src/main/resources/db/schema.sql` 在每次启动时幂等执行（`CREATE TABLE IF NOT EXISTS`），示例数据由 `data.sql` 幂等写入（`ON DUPLICATE KEY UPDATE`）。
+- **数据库自动初始化**：后端通过 `ApplicationContextInitializer` 在容器初始化（HikariCP / sql.init）之前调用 `DatabaseBootstrapper` 确保数据库存在（不存在则创建）。它通过 Spring `Environment` 读取 JDBC 配置（兼容 `SPRING_DATASOURCE_*` 环境变量覆盖），并内置「指数退避重试」等待 MySQL 就绪（默认 120s，可用 `app.db.init-timeout-seconds` 调整），适配 Docker 中 MySQL 容器启动但内部服务未就绪的竞态。表结构由 `src/main/resources/db/schema.sql` 在每次启动时幂等执行（`CREATE TABLE IF NOT EXISTS`），示例数据由 `data.sql` 幂等写入（`ON DUPLICATE KEY UPDATE`）。
 - **公共查询约定**：后端各 Service 实现通过 `publicWrapper()` 过滤 `status = 1 AND deleted = 0`（已发布且未删除）；admin 查询不受 `status` 限制但排除已删除。
 - **软删除**：所有 `blog_*` 表都带有 `deleted` 字段（0 正常 / 1 删除），不做物理删除。**例外**：`blog_file_asset` 删除时除软删行外还会移除磁盘文件（`Files.deleteIfExists`）。
 - **分页返回结构**：后端 `PageResponse<T>` 返回 `{ records, total, size, current }`，前端 `src/types/content.ts` 有对应类型。
